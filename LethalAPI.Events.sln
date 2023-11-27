@@ -1,0 +1,13 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LethalAPI.Events", "LethalAPI.Events\LethalAPI.Events\LethalAPI.Events.csproj", "{BF7B8C3C-A0EA-4390-A1CD-EEE00814D768}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BF7B8C3C-A0EA-4390-A1CD-EEE00814D768}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF7B8C3C-A0EA-4390-A1CD-EEE00814D768}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
