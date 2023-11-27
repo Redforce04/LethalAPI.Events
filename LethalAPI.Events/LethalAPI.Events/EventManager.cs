@@ -6,6 +6,7 @@
 // -----------------------------------------------------------------------
 
 // ReSharper disable RedundantNameQualifier
+// ReSharper disable UnusedMember.Local
 namespace LethalAPI.Events;
 
 using System;
@@ -176,7 +177,7 @@ public static class EventManager
         EventReferences[type].Subscribe(new CustomEventHandler(action));
     }
 
-    private static void SubscribeMethodToEvent(MethodInfo method, Type argsType, object? instance = null) => Method(typeof(EventManager), nameof(SubscribeMethodToEventT)).MakeGenericMethod(typeof(Event<>).MakeGenericType(argsType)).Invoke(null, new object?[] { method, instance });
+    private static void SubscribeMethodToEvent(MethodInfo method, Type argsType, object? instance = null) => Method(typeof(EventManager), nameof(SubscribeMethodToEventT)).MakeGenericMethod(typeof(Event<>).MakeGenericType(argsType)).Invoke(null, new[] { method, instance });
 
     private static void SubscribeMethodToEventT<T>(MethodInfo method, object? instance = null)
         where T : LethalAPI.Events.Interfaces.ILethalApiEvent
@@ -297,4 +298,3 @@ public static class EventManager
         public new Event<T> Event { get; init; }
     }
 }
-

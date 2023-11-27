@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="IgnoresAccessChecksToAttribute.cs" company="LethalAPI Modding Community">
-// Copyright (c) LethalAPI Modding Community. All rights reserved.
+// <copyright file="IgnoresAccessChecksToAttribute.cs" company="Redforce04">
+// Copyright (c) Redforce04. All rights reserved.
 // Licensed under the GPL-3.0 license.
 // </copyright>
 // -----------------------------------------------------------------------

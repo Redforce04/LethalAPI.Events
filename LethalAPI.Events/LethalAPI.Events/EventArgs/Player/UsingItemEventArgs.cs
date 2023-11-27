@@ -7,7 +7,7 @@
 
 namespace LethalAPI.Events.EventArgs.Player;
 
-using Interfaces;
+using LethalAPI.Events.Interfaces;
 
 /// <summary>
 /// Contains the arguments for the <see cref="Handlers.Player.UsingItem"/> event.

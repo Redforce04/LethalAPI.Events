@@ -9,7 +9,7 @@ namespace LethalAPI.Events.EventArgs.Server;
 
 using System;
 
-using Interfaces;
+using LethalAPI.Events.Interfaces;
 
 #pragma warning disable SA1201
 

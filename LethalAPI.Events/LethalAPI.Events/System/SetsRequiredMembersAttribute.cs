@@ -1,7 +1,7 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="SetsRequiredMembersAttribute.cs" company=".NET Foundation">
-// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
+// <copyright file="SetsRequiredMembersAttribute.cs" company="Redforce04">
+// Copyright (c) Redforce04. All rights reserved.
+// Licensed under the GPL-3.0 license.
 // </copyright>
 // -----------------------------------------------------------------------
 #pragma warning disable

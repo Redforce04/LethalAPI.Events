@@ -13,7 +13,7 @@ namespace LethalAPI.Events.Attributes;
 
 using System;
 
-using Interfaces;
+using LethalAPI.Events.Interfaces;
 
 /// <summary>
 /// An attribute to contain data about an event patch.
@@ -38,5 +38,5 @@ internal class EventPatchAttribute : Attribute
     /// <summary>
     /// Gets the <see cref="ILethalApiEvent"/> that will be raised by this patch.
     /// </summary>
-    internal ILethalApiEvent? Event => (ILethalApiEvent?)handlerType.GetProperty(eventName)?.GetValue(null);
+    internal ILethalApiEvent? Event => (ILethalApiEvent?)this.handlerType.GetProperty(this.eventName)?.GetValue(null);
 }

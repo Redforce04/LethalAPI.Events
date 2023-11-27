@@ -8,7 +8,7 @@
 namespace LethalAPI.Events.EventArgs.Player;
 
 using GameNetcodeStuff;
-using Interfaces;
+using LethalAPI.Events.Interfaces;
 
 /// <summary>
 /// Contains the arguments for the <see cref="Handlers.Player.Healing"/> event.

@@ -7,8 +7,8 @@
 
 namespace LethalAPI.Events.Handlers;
 
-using EventArgs.Player;
-using Features;
+using LethalAPI.Events.EventArgs.Player;
+using LethalAPI.Events.Features;
 
 /// <summary>
 /// Contains event handlers for player events.

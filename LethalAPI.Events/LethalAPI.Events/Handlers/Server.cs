@@ -7,8 +7,8 @@
 
 namespace LethalAPI.Events.Handlers;
 
-using EventArgs.Server;
-using Features;
+using LethalAPI.Events.EventArgs.Server;
+using LethalAPI.Events.Features;
 
 /// <summary>
 /// Contains "Server" event handlers.

@@ -14,6 +14,4 @@ namespace LethalAPI.Events.Interfaces;
 /// <summary>
 ///     The base LethalAPI Args interface to be used by all other event arg interfaces/classes.
 /// </summary>
-public interface ILethalApiEvent
-{
-}
+public interface ILethalApiEvent;

@@ -13,6 +13,4 @@ using System;
 /// Indicates to the <see cref="Features.Patcher"/> to not patch a class.
 /// </summary>
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-internal sealed class IgnorePatch : Attribute
-{
-}
+internal sealed class IgnorePatch : Attribute;

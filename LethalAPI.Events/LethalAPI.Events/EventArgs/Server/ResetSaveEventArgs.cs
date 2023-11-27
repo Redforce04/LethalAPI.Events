@@ -7,7 +7,7 @@
 
 namespace LethalAPI.Events.EventArgs.Server;
 
-using Interfaces;
+using LethalAPI.Events.Interfaces;
 
 /// <summary>
 ///     Represents the event args that are called when saving.

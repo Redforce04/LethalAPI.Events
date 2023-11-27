@@ -155,6 +155,7 @@ dotnet_diagnostic.SA1633.severity = none
 
 # Naming rules
 resharper_inconsistent_naming_highlighting=none
+resharper_redundant_name_qualifier_highlighting=none
 
 dotnet_naming_rule.interface_should_be_begins_with_i.severity = suggestion
 dotnet_naming_rule.interface_should_be_begins_with_i.symbols = interface
