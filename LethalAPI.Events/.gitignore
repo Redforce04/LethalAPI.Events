@@ -4,6 +4,7 @@
 #
 # remove idea stuff
 .idea/*
+.idea\*
 /[Ll]ibrary/
 /[Tt]emp/
 /[Oo]bj/
