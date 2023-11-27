@@ -107,7 +107,7 @@ dotnet_diagnostic.CS0436.severity = suggestion
 # SA1010: Opening square brackets should be spaced correctly
 dotnet_diagnostic.SA1010.severity = silent
 
-[Patches/*.cs]
+[LethalAPI.Events/Patches/*/*.cs]
 # SA1202: Internal members before private members. - Patches should always come before helper methods.
 dotnet_diagnostic.SA1202.severity = none
 

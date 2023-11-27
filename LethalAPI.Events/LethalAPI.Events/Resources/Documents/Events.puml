@@ -1,0 +1,76 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+'Events for players
+class PlayerEvents {
++ Heal [Before]
++ Critically Injure [Before]
++ Use Item [Before]
+
+Before = Deniable (Unless otherwise noted)
++ Interact With Door [Before]
++ Unlock Door [Before]
++ Buy Item [Before]
++ Change Suit [Before]
+
++ Use Terminal [Before]
++ Left Terminal [After]
++ Send Terminal Command [Before]
++ Terminal Command Sent [After]
+
++ Teleported [Before]
++ Damaged [Before]
++ Dying [Before]
++ Death [After]
+}
+
+'Events for server / game stuff
+class ServerEvents {
++ Game loaded [After]
++ Save [After]
++ Load save [After]
++ Reset save [Before]
+
++ Generating Map [Before]
++ Map Finished Generation [After]
++ Spawn Enemy [Before]
+
+}
+
+class EnemyEvents {
++ KillEnemy [Before]
++ HitEnemy [Before]
++ StunEnemy [Before]
+
++ Enrage [Before]
++ NoiseDetected [Before]
+
++ AttackPlayer [Before]
++ KillPlayer [Before]
+}
+
+class SpecializedEnemyEvents {
++ ""**HoarderBug (1)**""
++ ""BaboonBird (0)""
++ ""Blob       (0)""
++ ""Centipede  (0)""
++ ""Crawler    (0)""
++ ""DocileBees (0)""
++ ""Dog        (0)""
++ ""DoubleWing (0)""
++ ""DressGirl  (0)""
++ ""FlowerMan  (0)""
++ ""Giant      (0)""
++ ""Jester     (0)""
++ ""LassoMan   (0)""
++ ""Puffer     (0)""
++ ""RedBees    (0)""
++ ""Spider     (0)""
++ ""SpringMan  (0)""
++ ""Worm       (0)""
+}
+
+class HoarderBug {
++ PickupItem [Before]
+}
+@enduml

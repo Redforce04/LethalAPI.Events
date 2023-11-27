@@ -5,4 +5,6 @@
 // </copyright>
 // -----------------------------------------------------------------------
 #pragma warning disable SA1200 // using directives should appear in a namespace.
+global using LethalAPI.Events;
+
 global using Log = LethalAPI.Core.Log;

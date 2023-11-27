@@ -11,7 +11,7 @@
 
 namespace LethalAPI.Events.Interfaces;
 
-using UnityEngine;
+using GameNetcodeStuff;
 
 /// <summary>
 ///     Event args used for all Player related events.
@@ -21,5 +21,5 @@ public interface IPlayerEvent : ILethalApiEvent
     /// <summary>
     /// Gets the Player.
     /// </summary>
-    public GameObject Player { get; }
+    public PlayerControllerB Player { get; init;  }
 }

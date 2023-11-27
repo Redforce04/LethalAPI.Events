@@ -13,7 +13,7 @@ using LethalAPI.Events.Interfaces;
 /// <summary>
 /// Contains the arguments for the <see cref="Handlers.Player.Healing"/> event.
 /// </summary>
-public class HealingEventArgs : IDeniableEvent
+public sealed class HealingEventArgs : IDeniableEvent
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="HealingEventArgs"/> class.
