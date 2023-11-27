@@ -1,0 +1,54 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <AssemblyName>LethalAPI.Events</AssemblyName>
+        <RootNamespace>LethalAPI.Events</RootNamespace>
+        <Description>Description</Description>
+        <Version>1.0.0</Version>
+        <TargetFramework>net48</TargetFramework>
+        <ImplicitUsings>false</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <LangVersion>preview</LangVersion>
+        <Configurations>Release</Configurations>
+        <Platform>AnyCPU</Platform>
+        <Nullable>enable</Nullable>
+        <UnsafeCodeBlocks>true</UnsafeCodeBlocks>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <Optimize>true</Optimize>
+        <DebugType>embedded</DebugType>
+        <OutputPath>..\bin\Debug\</OutputPath>
+        <DocumentationFile>..\bin\Debug\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+        <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)..\Plugin.ruleset</CodeAnalysisRuleSet>
+        <DefineConstants>Trace</DefineConstants>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.1" PrivateAssets="all" ExcludeAssets="runtime"/>
+        <PackageReference Include="Costura.Fody" Version="5.8.0-alpha0098" IncludeAssets="runtime; compile; build; native; contentfiles; analyzers; buildtransitive" PrivateAssets="all" ExcludeAssets="runtime"/>
+        <PackageReference Include="Fody" Version="6.8.0" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive" PrivateAssets="all" ExcludeAssets="runtime"/>
+        <PackageReference Include="HarmonyX" Version="2.10.2" ExcludeAssets="runtime" />
+        <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.507" PrivateAssets="all" IncludeAssets="runtime; compile; build; native; contentfiles; analyzers; buildtransitive" ExcludeAssets="runtime"/>
+        <PackageReference Include="UnityEngine.Modules" Version="2022.3.9" IncludeAssets="compile" ExcludeAssets="runtime"/>
+        <PackageReference Include="YamlDotNet" Version="13.7.1" ExcludeAssets="runtime"/>
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" ExcludeAssets="runtime"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Reference Include="LethalAPI.Core" HintPath="$(LC_REFERENCES)\LethalAPI.Core.dll" Private="False"/>
+        <Reference Include="Assembly-CSharp" HintPath="$(LC_REFERENCES)\Assembly-CSharp.dll" Private="False" Publicize="True"/>
+        <Reference Include="GameNetworkManager" HintPath="$(LC_REFERENCES)\Facepunch.Steamworks.Win64.dll" Private="False"/>
+        <Reference Include="Unity.TextMeshPro" HintPath="$(LC_REFERENCES)\Unity.TextMeshPro.dll" Private="False"/>
+        <Reference Include="UnityEngine" HintPath="$(LC_REFERENCES)\UnityEngine.dll" Private="False"/>
+        <Reference Include="UnityEngine.UI" HintPath="$(LC_REFERENCES)\UnityEngine.UI.dll" Private="False"/>
+        <Reference Include="Unity.Networking.Transport" HintPath="$(LC_REFERENCES)\Unity.Networking.Transport.dll" Private="False"/>
+        <Reference Include="Unity.Netcode.Runtime" HintPath="$(LC_REFERENCES)\Unity.Netcode.Runtime.dll" Private="False"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <AdditionalFiles Include="..\stylecop.json" Link="Resources/stylecop.json"/>
+        <Content Include="..\.editorconfig" Link="Resources/.editorconfig"/>
+        <Content Include="..\.gitignore" Link="Resources/.gitignore"/>
+        <Content Include="..\Plugin.ruleset" Link="Resources/Plugin.ruleset"/>
+        <Content Include="..\LICENSE" Link="Resources/LICENSE"/>
+        <Content Include="..\README.md" Link="Resources/README.md"/>
+    </ItemGroup>
+</Project>
