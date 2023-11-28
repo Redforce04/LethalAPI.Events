@@ -18,6 +18,9 @@ public sealed class EnemyAttackingPlayerEventArgs : IEnemyEvent, IPlayerEvent, I
     /// <summary>
     /// Initializes a new instance of the <see cref="EnemyAttackingPlayerEventArgs"/> class.
     /// </summary>
+    /// <param name="damage">
+    ///     The damage being dealt. For enemies that do a one-shot kill, this should be set to zero.
+    /// </param>
     /// <param name="player">
     ///     The player that is being attacked.
     /// </param>
@@ -27,8 +30,9 @@ public sealed class EnemyAttackingPlayerEventArgs : IEnemyEvent, IPlayerEvent, I
     /// <param name="isAllowed">
     ///     Indicates whether the event is allowed to occur.
     /// </param>
-    public EnemyAttackingPlayerEventArgs(PlayerControllerB player, EnemyAI enemy, bool isAllowed = true)
+    public EnemyAttackingPlayerEventArgs(int damage, PlayerControllerB player, EnemyAI enemy, bool isAllowed = true)
     {
+        this.Damage = damage;
         this.Player = player;
         this.Enemy = enemy;
         this.IsAllowed = isAllowed;
@@ -43,6 +47,14 @@ public sealed class EnemyAttackingPlayerEventArgs : IEnemyEvent, IPlayerEvent, I
     /// Gets the enemy that is attacking the player.
     /// </summary>
     public EnemyAI Enemy { get; init; }
+
+    /// <summary>
+    ///     Gets or sets the damage dealt to the player.
+    /// </summary>
+    /// <remarks>
+    ///     Note: Some enemies are one-shot and will always kill the player. In this case the damage will be ignored and will be -1 by default.
+    /// </remarks>
+    public int Damage { get; set; }
 
     /// <inheritdoc />
     public bool IsAllowed { get; set; }

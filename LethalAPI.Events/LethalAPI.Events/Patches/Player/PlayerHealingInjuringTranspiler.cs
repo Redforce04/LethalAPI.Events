@@ -16,8 +16,8 @@ using System.Reflection.Emit;
 using EventArgs.Player;
 using GameNetcodeStuff;
 using HarmonyLib;
-using LethalAPI.Core.Patches.HarmonyTools;
 using LethalAPI.Events.Attributes;
+using LethalAPI.Events.Patches.HarmonyTools;
 
 using EventTranspilerInjector = HarmonyTools.EventTranspilerInjector;
 
