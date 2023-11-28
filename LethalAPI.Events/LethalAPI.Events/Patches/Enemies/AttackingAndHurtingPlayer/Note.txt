@@ -1,0 +1,18 @@
+[HarmonyPatch(typeof(BlobAI), nameof(BlobAI.OnCollideWithPlayer))] // damage + kill animation
+[HarmonyPatch(typeof(BaboonBirdAI), nameof(BaboonBirdAI.OnCollideWithPlayer))] // damage + kill animation
+[HarmonyPatch(typeof(CentipedeAI), nameof(CentipedeAI.Update))] // tick damage
+[HarmonyPatch(typeof(CrawlerAI), nameof(CrawlerAI.OnCollideWithPlayer))] // damage only (implicit killing)
+[HarmonyPatch(typeof(DocileLocustBeesAI), nameof(DocileLocustBeesAI))] // doesnt do damage
+[HarmonyPatch(typeof(MouthDogAI), nameof(MouthDogAI.OnCollideWithPlayer))] // kill only
+[HarmonyPatch(typeof(DoublewingAI), nameof(DoublewingAI))] // doesnt do killing
+[HarmonyPatch(typeof(DressGirlAI), nameof(DressGirlAI.OnCollideWithPlayer))] // kill only
+[HarmonyPatch(typeof(FlowermanAI), nameof(FlowermanAI.OnCollideWithPlayer))] // kill only
+[HarmonyPatch(typeof(ForestGiantAI), nameof(ForestGiantAI.OnCollideWithPlayer))] // kill only
+[HarmonyPatch(typeof(HoarderBugAI), nameof(HoarderBugAI.OnCollideWithPlayer))] // damage only (implicit killing)
+[HarmonyPatch(typeof(JesterAI), nameof(JesterAI.OnCollideWithPlayer))] // kill only
+[HarmonyPatch(typeof(LassoManAI), nameof(LassoManAI.OnCollideWithPlayer))] // damage only (implicit killing)
+[HarmonyPatch(typeof(PufferAI), nameof(PufferAI.OnCollideWithPlayer))] // damage only (implicit killing)
+[HarmonyPatch(typeof(RedLocustBees), nameof(RedLocustBees.OnCollideWithPlayer))] // damage only (implicit killing)
+[HarmonyPatch(typeof(SandSpiderAI), nameof(SandSpiderAI.OnCollideWithPlayer))] // damage only (implicit killing)
+[HarmonyPatch(typeof(SpringManAI), nameof(SpringManAI.OnCollideWithPlayer))] // damage only (implicit killing)
+[HarmonyPatch(typeof(SandWormAI), nameof(SandWormAI.OnCollideWithPlayer))] // kill only
