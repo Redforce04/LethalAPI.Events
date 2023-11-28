@@ -60,17 +60,23 @@ public static class TranspilerHelper
     /// Finds the Nth instruction index that matches the specified predicate.
     /// </summary>
     /// <param name="instructions">The instructions to search.</param>
-    /// <param name="n">The Nth value to find.</param>
+    /// <param name="n">The Nth value to find. Starts at 1 - not 0.</param>
     /// <param name="predicate">The predicate to match for.</param>
+    /// <param name="startIndex">The amount of instructions to skip searching.</param>
     /// <returns>The index of the Nth instruction that matches the predicate, or -1 if not found.</returns>
-    public static int FindNthInstruction(this List<CodeInstruction> instructions, int n, Func<CodeInstruction, bool> predicate)
+    public static int FindNthInstruction(this List<CodeInstruction> instructions, int n, Func<CodeInstruction, bool> predicate, int startIndex = 0)
     {
-        if (n <= 0)
+        if (n < 0)
         {
             return -1;
         }
 
-        for (int i = 0; n < instructions.Count; i++)
+        if (n == 0)
+        {
+            n = 1;
+        }
+
+        for (int i = startIndex; n < instructions.Count; i++)
         {
             if (!predicate(instructions[i]))
             {
@@ -90,17 +96,23 @@ public static class TranspilerHelper
     /// Finds the Nth instruction index that matches the specified predicate, in reverse.
     /// </summary>
     /// <param name="instructions">The instructions to search.</param>
-    /// <param name="n">The Nth value to find in reverse.</param>
+    /// <param name="n">The Nth value to find in reverse. Starts at 1 - not 0.</param>
     /// <param name="predicate">The predicate to match for.</param>
+    /// <param name="startIndex">The amount of instructions to skip searching (from the last instruction).</param>
     /// <returns>The index of the Nth instruction that matches the predicate in reverse order, or -1 if not found.</returns>
-    public static int FindNthInstructionReverse(this List<CodeInstruction> instructions, int n, Func<CodeInstruction, bool> predicate)
+    public static int FindNthInstructionReverse(this List<CodeInstruction> instructions, int n, Func<CodeInstruction, bool> predicate, int startIndex = 0)
     {
-        if (n <= 0)
+        if (n < 0)
         {
             return -1;
         }
 
-        for (int i = instructions.Count - 1; n >= 0; i--)
+        if (n == 0)
+        {
+            n = 1;
+        }
+
+        for (int i = instructions.Count - (1 + startIndex); n >= 0; i--)
         {
             if (!predicate(instructions[i]))
             {
