@@ -36,6 +36,11 @@ public class Event : ILethalApiEvent
     private static readonly List<Event> EventsValue = new();
 
     /// <summary>
+    /// The name of the event.
+    /// </summary>
+    private readonly string name;
+
+    /// <summary>
     /// Indicates whether the event has been patched or not. We can utilize dynamic patching to only patch the events that we need.
     /// </summary>
     private bool patched;
@@ -44,9 +49,13 @@ public class Event : ILethalApiEvent
     /// <summary>
     /// Initializes a new instance of the <see cref="Event"/> class.
     /// </summary>
-    public Event()
+    /// <param name="name">
+    ///     The name of the event. Used for logging.
+    /// </param>
+    public Event(string name)
     {
         EventsValue.Add(this);
+        this.name = name;
     }
 
     private event CustomEventHandler? InnerEvent;
@@ -110,7 +119,7 @@ public class Event : ILethalApiEvent
     /// </summary>
     public void InvokeSafely()
     {
-        Log.Debug($"Blank Event Invoked", Plugin.Instance.Config.LogEventPatching, "LethalAPI-Events");
+        Log.Debug($"Event {name} Invoked", Plugin.Instance.Config.LogEventPatching, "LethalAPI-Events");
         if (this.InnerEvent is null)
         {
             return;
