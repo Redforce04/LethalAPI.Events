@@ -189,7 +189,7 @@ public static class EventTranspilerInjector
     private static PropertyInfo? GetEventPropertyInfo<T>()
         where T : ILethalApiEvent
     {
-        types ??= typeof(Log).Assembly.DefinedTypes
+        types ??= typeof(LethalAPI.Events.Plugin).Assembly.DefinedTypes
             .Where(x => x.FullName?.StartsWith("LethalAPI.Core.Events.Handlers") ?? false).ToList();
 
         return types
