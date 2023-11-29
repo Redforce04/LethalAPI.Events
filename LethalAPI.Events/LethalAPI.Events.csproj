@@ -20,7 +20,7 @@
         <Optimize>true</Optimize>
         <DebugType>embedded</DebugType>
         <OutputPath>..bin\Release\</OutputPath>
-        <DocumentationFile>..bin\Release\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+        <DocumentationFile>..\bin\Release\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
         <CodeAnalysisRuleSet>..\Plugin.ruleset</CodeAnalysisRuleSet>
         <RestoreAdditionalProjectSources>
             https://api.nuget.org/v3/index.json;
@@ -54,14 +54,15 @@
     </ItemGroup>
 
     <ItemGroup>
-        <AdditionalFiles Include="..\stylecop.json" Link="Resources/stylecop.json"/>
+        <AdditionalFiles Include="../stylecop.json" Link="Resources/stylecop.json"/>
         <None Remove="FodyWeavers.xml" />
-        <None Include="FodyWeavers.xml" Link="Resources\FodyWeavers.xml" />
-        <Content Include="..\.editorconfig" Link="Resources/.editorconfig"/>
-        <Content Include="..\.gitignore" Link="Resources/.gitignore"/>
-        <Content Include="..\Plugin.ruleset" Link="Resources/Plugin.ruleset"/>
-        <Content Include="..\LICENSE" Link="Resources/LICENSE"/>
-        <Content Include="..\README.md" Link="Resources/README.md"/>
+        <None Include="FodyWeavers.xml" Link="Resources/FodyWeavers.xml" />
+        <Content Include="../.editorconfig" Link="Resources/.editorconfig"/>
+        <Content Include="../.gitignore" Link="Resources/.gitignore"/>
+        <Content Include="../Plugin.ruleset" Link="Resources/Plugin.ruleset"/>
+        <Content Include="../LICENSE" Link="Resources/LICENSE"/>
+        <Content Include="../README.md" Link="Resources/README.md"/>
+        <None Include="../Documents/*" Link="Resources/Documents/.puml" />
     </ItemGroup>
 
     <ItemGroup>
