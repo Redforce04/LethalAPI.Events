@@ -41,7 +41,7 @@ public static class EventTranspilerInjector
     /// </param>
     /// <param name="autoInsertConstructorParameters">When set to true, the injector will auto-determine the parameters for a patch, and add them.</param>
     /// <typeparam name="T">The <see cref="IDeniableEvent"/> to inject.</typeparam>
-    public static void InjectDeniableEvent<T>(ref List<CodeInstruction> instructions, ref ILGenerator generator, ref MethodBase baseMethod, int index, List<CodeInstruction>? prefixInstructions = null, bool autoInsertConstructorParameters = true, bool popEventInstanceOnStack = false)
+    public static void InjectDeniableEvent<T>(ref List<CodeInstruction> instructions, ref ILGenerator generator, ref MethodBase baseMethod, int index, List<CodeInstruction>? prefixInstructions = null, bool autoInsertConstructorParameters = true)
         where T : IDeniableEvent
     {
         PropertyInfo? propertyInfo = GetEventPropertyInfo<T>();
