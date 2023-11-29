@@ -63,6 +63,17 @@ public class Injector : IList<CodeInstruction>, IList, IReadOnlyList<CodeInstruc
     public int IndexToInject { get; protected set; }
 
     /// <summary>
+    /// Gets or sets a list containing of indexes where instructions were injected, and the length of the instructions.
+    /// </summary>
+    /// <example>
+    /// <code language="csharp">
+    ///     Key: Beginning index of injected instructions.
+    ///     Value: Length of injected instructions for this index.
+    /// </code>
+    /// </example>
+    public Dictionary<ushort, ushort> InjectedInstructionIndexes { get; set; } = new();
+
+    /// <summary>
     /// Gets or sets the amount of instructions which have been injected.
     /// </summary>
     public int AddedInstructionAmount { get; protected set; }
@@ -124,6 +135,7 @@ public class Injector : IList<CodeInstruction>, IList, IReadOnlyList<CodeInstruc
         }
 
         List<CodeInstruction> codeInstructions = instructions as List<CodeInstruction> ?? instructions.ToList();
+        this.InjectedInstructionIndexes.Add((ushort)this.IndexToInject, (ushort)codeInstructions.Count);
         this.Instructions.InsertRange(this.IndexToInject, codeInstructions);
         this.IndexToInject += codeInstructions.Count;
         this.AddedInstructionAmount += codeInstructions.Count;
