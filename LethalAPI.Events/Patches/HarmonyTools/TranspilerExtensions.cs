@@ -9,6 +9,8 @@ namespace LethalAPI.Events.Patches.HarmonyTools;
 
 #pragma warning disable SA1201 // enum should not follow a field.
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 
@@ -27,11 +29,26 @@ public static class TranspilerExtensions
     /// <param name="injectedIndex">The additional index the instruction is being added at (if new instruction).</param>
     /// <param name="enable">An integrated if return statement.</param>
     /// <param name="debug">Should the output have advanced logging features. This can clutter the console so it's disabled by default.</param>
+    /// <param name="injectedIndexes">A dictionary of each injected index and how long the index was.</param>
     /// <returns>The original instruction (unmodified).</returns>
-    public static CodeInstruction Log(this CodeInstruction instruction, int index = 0, int injectedIndex = -1, bool enable = true, bool debug = false)
+    public static CodeInstruction Log(this CodeInstruction instruction, int index = 0, int injectedIndex = -1, bool enable = true, bool debug = false, Dictionary<ushort, ushort>? injectedIndexes = null)
     {
         if (!enable)
             return instruction;
+        injectedIndexes ??= new Dictionary<ushort, ushort>();
+        foreach (KeyValuePair<ushort, ushort> kvp in injectedIndexes.OrderByDescending(x => x.Key))
+        {
+            // finds the first index that is smaller.
+            if (kvp.Key > index)
+                continue;
+
+            // if the current instruction index is within the range of injected indexes, we can find the injected index.
+            if (kvp.Key + kvp.Value >= index)
+                injectedIndex = index - kvp.Key; // the index will either be the same or larger so it should come first.
+
+            break;
+        }
+
         Core.Log.Debug(GetOpcodeDebugLabel(instruction, index, injectedIndex, debug ? OutputIncludes.Debug : OutputIncludes.Basic));
         return instruction;
     }

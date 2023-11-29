@@ -6,6 +6,7 @@
 // -----------------------------------------------------------------------
 
 // ReSharper disable InconsistentNaming
+// ReSharper disable RedundantArgumentDefaultValue
 namespace LethalAPI.Events.Patches.Player;
 
 using System.Collections.Generic;
@@ -32,13 +33,15 @@ internal static class PlayerHealingInjuringTranspiler
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
+        // If enabled, the output info contains more information than just the opcode, index, and label.
+        const bool ShowDebugInfo = false;
         List<CodeInstruction> newInstructions = instructions.ToList();
 
         int index = newInstructions.FindNthInstruction(2, instruction => instruction.opcode == OpCodes.Ret);
         EventTranspilerInjector.InjectDeniableEvent<HealingEventArgs>(ref newInstructions, ref generator, ref original, index + 1);
         EventTranspilerInjector.InjectDeniableEvent<CriticallyInjureEventArgs>(ref newInstructions, ref generator, ref original, 2);
 
-        foreach (CodeInstruction? instruction in newInstructions)
-            yield return instruction;
+        for (int i = 0; i < newInstructions.Count; i++)
+            yield return newInstructions[i].Log(i, -1, Plugin.Instance.Config.DetailedPatchLogging.Contains(nameof(PlayerHealingInjuringTranspiler)), ShowDebugInfo);
     }
 }
