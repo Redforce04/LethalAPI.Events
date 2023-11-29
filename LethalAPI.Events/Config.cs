@@ -7,6 +7,7 @@
 
 namespace LethalAPI.Events;
 
+using System.Collections.Generic;
 using System.ComponentModel;
 
 using LethalAPI.Core.Interfaces;
@@ -28,16 +29,24 @@ public class Config : IConfig
     /// <summary>
     /// Gets or sets a value indicating whether or not dynamic patching will be used.
     /// </summary>
-    [Description("Gets or sets a value indicating whether or not dynamic patching will be used.")]
+    [Description("Indicates whether or not dynamic patching will be used.")]
     public bool UseDynamicPatching { get; set; } = true;
 
     /// <summary>
     /// Gets or sets a value indicating whether or not event execution will be logged.
     /// </summary>
+    [Description("Indicates whether or not the execution of events will be logged.")]
     public bool LogEventExecution { get; set; } = false;
 
     /// <summary>
     /// Gets or sets a value indicating whether or not patching will be logged..
     /// </summary>
+    [Description("Indicates whether or not the patching of events will be logged.")]
     public bool LogEventPatching { get; set; } = false;
+
+    /// <summary>
+    /// Gets or sets a value containing the names of patches which should have detailed logging shown on patching.
+    /// </summary>
+    [Description("A list containing the names of patches which should have detailed opcode logging shown on patching.")]
+    public List<string> DetailedPatchLogging { get; set; } = new();
 }
