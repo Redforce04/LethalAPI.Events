@@ -1,7 +1,7 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="TranspilerHelper.cs" company="Redforce04">
 // Copyright (c) Redforce04. All rights reserved.
-// Licensed under the GPL-3.0 license.
+// Licensed under the LGPL-3.0 license.
 // </copyright>
 // Licensed under the MIT License. License:
 // https://github.com/o5zereth/ZerethAPI/blob/master/LICENSE.txt

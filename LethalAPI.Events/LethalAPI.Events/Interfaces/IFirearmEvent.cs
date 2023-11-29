@@ -1,7 +1,7 @@
 // -----------------------------------------------------------------------
 // <copyright file="IFirearmEvent.cs" company="Redforce04">
 // Copyright (c) Redforce04. All rights reserved.
-// Licensed under the GPL-3.0 license.
+// Licensed under the LGPL-3.0 license.
 // </copyright>
 // Taken from EXILED (https://github.com/Exiled-Team/EXILED)
 // Licensed under the CC BY SA 3 license. View it here:
