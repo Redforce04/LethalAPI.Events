@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="Plugin.cs" company="Redforce04">
-// Copyright (c) Redforce04. All rights reserved.
+// <copyright file="Plugin.cs" company="LethalAPI Event Team">
+// Copyright (c) LethalAPI Event Team. All rights reserved.
 // Licensed under the LGPL-3.0 license.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -39,7 +39,7 @@ public sealed class Plugin : Core.Features.Plugin<Config>
     public override string Description => "Provides a maintainable and extendable event system for LethalAPI";
 
     /// <inheritdoc />
-    public override string Author => "Redforce04";
+    public override string Author => "LethalAPI Event Team";
 
     /// <inheritdoc />
     public override Version Version => new(1, 0, 0);
@@ -66,7 +66,7 @@ public sealed class Plugin : Core.Features.Plugin<Config>
 
         SceneManager.sceneUnloaded += Handlers.Internal.SceneUnloaded.OnSceneUnloaded;
 
-        Log.Info($"Started plugin LethalAPI.Events by Redforce04.");
+        Log.Info($"Started plugin LethalAPI.Events by LethalAPI Event Team.");
     }
 
     /// <inheritdoc />

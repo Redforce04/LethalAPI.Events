@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="BaboonBirdOnCollideWithPlayerTranspiler.cs" company="Redforce04">
-// Copyright (c) Redforce04. All rights reserved.
+// <copyright file="BaboonBirdOnCollideWithPlayerTranspiler.cs" company="LethalAPI Event Team">
+// Copyright (c) LethalAPI Event Team. All rights reserved.
 // Licensed under the LGPL-3.0 license.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -35,8 +35,8 @@ internal static class BaboonBirdOnCollideWithPlayerTranspiler
 
         int constIndex = newInstructions.FindNthInstruction(1, instruction => instruction.opcode == OpCodes.Ldc_I4_S);
         int index = constIndex - 1;
-        int originalDamage = (int)newInstructions[constIndex].operand;
 
+        // int originalDamage = (int)newInstructions[constIndex].operand;
         // LocalBuilder attackingPlayerEvent = DeniableEventInjector<EnemyAttackingPlayerEventArgs>.Create(ref newInstructions, ref generator, original).CreateLocalForEventArg(true).Inject().LocalEventArg!;
         EventTranspilerInjector.InjectDeniableEvent<EnemyAttackingPlayerEventArgs>(ref newInstructions, ref generator, ref original, index + 1);
         EventTranspilerInjector.InjectDeniableEvent<EnemyKillingPlayerEventArgs>(ref newInstructions, ref generator, ref original, index + 1);
