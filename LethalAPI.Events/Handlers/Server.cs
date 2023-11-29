@@ -29,5 +29,5 @@ public static class Server
     /// <summary>
     ///     Gets or sets the event that is invoked when the game gets to the very first menu.
     /// </summary>
-    public static Event GameOpened { get; set; } = new();
+    public static Event GameOpened { get; set; } = new(nameof(GameOpened));
 }
