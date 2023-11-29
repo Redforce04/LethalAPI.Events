@@ -41,6 +41,6 @@ internal static class PlayerHealingInjuringTranspiler
         EventTranspilerInjector.InjectDeniableEvent<CriticallyInjureEventArgs>(ref newInstructions, ref generator, ref original, 2);
 
         for (int i = 0; i < newInstructions.Count; i++)
-            yield return newInstructions[i].LogIfAllowed(i, i == index ? 0 : -1, true, ShowDebugInfo);
+            yield return newInstructions[i].Log(i, -1, Plugin.Instance.Config.DetailedPatchLogging.Contains(nameof(PlayerHealingInjuringTranspiler)), ShowDebugInfo);
     }
 }
