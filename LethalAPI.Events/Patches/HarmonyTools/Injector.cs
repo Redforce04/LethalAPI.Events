@@ -53,7 +53,7 @@ public class Injector : IList<CodeInstruction>, IList, IReadOnlyList<CodeInstruc
     /// <summary>
     /// Gets a list that stores the type information of the transpiler.
     /// </summary>
-    protected static List<TypeInfo> HandlerTypes => typeof(Log).Assembly.DefinedTypes.Where(x => x.FullName?.StartsWith("LethalAPI.Events.Handlers") ?? false).ToList();
+    protected static List<TypeInfo> HandlerTypes => typeof(LethalAPI.Events.Plugin).Assembly.DefinedTypes.Where(x => x.FullName?.StartsWith("LethalAPI.Events.Handlers") ?? false).ToList();
 
     /// <summary>
     /// Gets or sets the index which the next instruction will be injected at.
