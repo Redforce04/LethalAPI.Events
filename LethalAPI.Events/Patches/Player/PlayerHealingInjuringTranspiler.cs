@@ -17,10 +17,10 @@ using System.Reflection.Emit;
 using EventArgs.Player;
 using GameNetcodeStuff;
 using HarmonyLib;
+using HarmonyTools.Injectors;
 using LethalAPI.Events.Attributes;
 using LethalAPI.Events.Patches.HarmonyTools;
-
-using EventTranspilerInjector = HarmonyTools.EventTranspilerInjector;
+using MonoMod.Utils;
 
 /// <summary>
 ///     Patches the <see cref="Handlers.Player.Healing"/> and <see cref="Handlers.Player.CriticallyInjure"/> event.
@@ -38,10 +38,12 @@ internal static class PlayerHealingInjuringTranspiler
         List<CodeInstruction> newInstructions = instructions.ToList();
 
         int index = newInstructions.FindNthInstruction(2, instruction => instruction.opcode == OpCodes.Ret);
-        EventTranspilerInjector.InjectDeniableEvent<HealingEventArgs>(ref newInstructions, ref generator, ref original, index + 1);
-        EventTranspilerInjector.InjectDeniableEvent<CriticallyInjureEventArgs>(ref newInstructions, ref generator, ref original, 2);
+        Dictionary<ushort, ushort> indexes = DeniableEventInjector<HealingEventArgs>.Create(ref newInstructions, ref generator, original).Inject(index + 1).InjectedInstructionIndexes;
+        indexes.AddRange(DeniableEventInjector<CriticallyInjureEventArgs>.Create(ref newInstructions, ref generator, original).Inject(2).InjectedInstructionIndexes);
 
+        // EventTranspilerInjector.InjectDeniableEvent<HealingEventArgs>(ref newInstructions, ref generator, ref original, index + 1);
+        // EventTranspilerInjector.InjectDeniableEvent<CriticallyInjureEventArgs>(ref newInstructions, ref generator, ref original, 2);
         for (int i = 0; i < newInstructions.Count; i++)
-            yield return newInstructions[i].Log(i, -1, Plugin.Instance.Config.DetailedPatchLogging.Contains(nameof(PlayerHealingInjuringTranspiler)), ShowDebugInfo);
+            yield return newInstructions[i].Log(i, -1, Plugin.Instance.Config.DetailedPatchLogging.Contains(nameof(PlayerHealingInjuringTranspiler)), ShowDebugInfo, indexes);
     }
 }

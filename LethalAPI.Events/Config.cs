@@ -5,6 +5,8 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+// ReSharper disable ClassNeverInstantiated.Global
+// ReSharper disable CollectionNeverUpdated.Global
 namespace LethalAPI.Events;
 
 using System.Collections.Generic;
@@ -15,7 +17,6 @@ using LethalAPI.Core.Interfaces;
 /// <summary>
 /// The main config class.
 /// </summary>
-// ReSharper disable ClassNeverInstantiated.Global
 public class Config : IConfig
 {
     /// <inheritdoc />
