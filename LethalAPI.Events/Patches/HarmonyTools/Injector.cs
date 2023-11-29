@@ -1,7 +1,7 @@
 // -----------------------------------------------------------------------
 // <copyright file="Injector.cs" company="LethalAPI Event Team">
 // Copyright (c) LethalAPI Event Team. All rights reserved.
-// Licensed under the GPL-3.0 license.
+// Licensed under the LGPL-3.0 license.
 // </copyright>
 // -----------------------------------------------------------------------
 
