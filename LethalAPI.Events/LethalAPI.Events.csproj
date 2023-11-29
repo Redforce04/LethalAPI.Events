@@ -2,23 +2,33 @@
     <PropertyGroup>
         <AssemblyName>LethalAPI.Events</AssemblyName>
         <RootNamespace>LethalAPI.Events</RootNamespace>
-        <Description>Description</Description>
-        <Version>1.0.0</Version>
+        <PackageId>LethalAPI.Events</PackageId>
+        <Company>LethalAPI Event Team</Company>
+        <Authors>LethalAPI Event Team</Authors>
+        <Description>An events framework for the LethalAPI framework. Note: This plugin is not an official LethalAPI plugin, and is maintained separately.</Description>
+        <Version>0.0.1</Version>
+        <FileVersion>0.0.1</FileVersion>
+        <AssemblyVersion>0.0.1</AssemblyVersion>
         <TargetFramework>net48</TargetFramework>
         <ImplicitUsings>false</ImplicitUsings>
         <Nullable>enable</Nullable>
         <LangVersion>preview</LangVersion>
         <Configurations>Release</Configurations>
         <Platform>AnyCPU</Platform>
-        <Nullable>enable</Nullable>
         <UnsafeCodeBlocks>true</UnsafeCodeBlocks>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <Optimize>true</Optimize>
         <DebugType>embedded</DebugType>
-        <OutputPath>..\bin\Debug\</OutputPath>
-        <DocumentationFile>..\bin\Debug\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
-        <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)..\Plugin.ruleset</CodeAnalysisRuleSet>
+        <OutputPath>..bin\Release\</OutputPath>
+        <DocumentationFile>..bin\Release\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+        <CodeAnalysisRuleSet>..\Plugin.ruleset</CodeAnalysisRuleSet>
+        <RestoreAdditionalProjectSources>
+            https://api.nuget.org/v3/index.json;
+            https://nuget.bepinex.dev/v3/index.json
+        </RestoreAdditionalProjectSources>
         <DefineConstants>Trace</DefineConstants>
+        <NoWarn>1701;1702;CS0436</NoWarn>
+        <Configurations>Release</Configurations>
     </PropertyGroup>
 
     <ItemGroup>
@@ -45,6 +55,8 @@
 
     <ItemGroup>
         <AdditionalFiles Include="..\stylecop.json" Link="Resources/stylecop.json"/>
+        <None Remove="FodyWeavers.xml" />
+        <None Include="FodyWeavers.xml" Link="Resources\FodyWeavers.xml" />
         <Content Include="..\.editorconfig" Link="Resources/.editorconfig"/>
         <Content Include="..\.gitignore" Link="Resources/.gitignore"/>
         <Content Include="..\Plugin.ruleset" Link="Resources/Plugin.ruleset"/>
