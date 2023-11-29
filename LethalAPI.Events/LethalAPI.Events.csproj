@@ -20,7 +20,7 @@
         <Optimize>true</Optimize>
         <DebugType>embedded</DebugType>
         <OutputPath>..bin\Release\</OutputPath>
-        <DocumentationFile>..bin\Release\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+        <DocumentationFile>..\bin\Release\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
         <CodeAnalysisRuleSet>..\Plugin.ruleset</CodeAnalysisRuleSet>
         <RestoreAdditionalProjectSources>
             https://api.nuget.org/v3/index.json;
