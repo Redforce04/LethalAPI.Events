@@ -10,7 +10,6 @@ namespace LethalAPI.Events.Patches.HarmonyTools;
 #pragma warning disable SA1201 // enum should not follow a field.
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;

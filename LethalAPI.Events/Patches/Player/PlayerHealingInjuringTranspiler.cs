@@ -6,6 +6,7 @@
 // -----------------------------------------------------------------------
 
 // ReSharper disable InconsistentNaming
+// ReSharper disable RedundantArgumentDefaultValue
 namespace LethalAPI.Events.Patches.Player;
 
 using System.Collections.Generic;
