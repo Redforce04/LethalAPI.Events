@@ -17,22 +17,17 @@ using LethalAPI.Events.Interfaces;
 /// <summary>
 ///     Represents the event args that are called when loading a save.
 /// </summary>
+/// <param name="saveSlot">
+///     The slot being loaded.
+/// </param>
+/// <param name="loadedItem">
+///     The item or items being loaded.
+/// </param>
 // ReSharper disable once ClassNeverInstantiated.Global
-public sealed class LoadingSaveEventArgs : ILethalApiEvent
+public sealed class LoadingSaveEventArgs(string saveSlot, LoadedItem loadedItem) : ILethalApiEvent
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="LoadingSaveEventArgs"/> class.
-    /// </summary>
-    /// <param name="saveSlot">The slot being loaded.</param>
-    /// <param name="loadedItem">The item or items being loaded..</param>
-    public LoadingSaveEventArgs(string saveSlot, LoadedItem loadedItem)
-    {
-        this.SaveSlot = saveSlot;
-        this.LoadedItem = loadedItem;
-    }
-
-    /// <summary>
-    /// Gets the slot of the save being loaded from.
+    ///     Gets the slot of the save being loaded from.
     /// </summary>
     /// <code>
     /// Currently Supports Save Slots:
@@ -42,47 +37,47 @@ public sealed class LoadingSaveEventArgs : ILethalApiEvent
     ///     LCSaveFile3 - Save slot 3.
     /// </code>
     // ReSharper disable once UnusedAutoPropertyAccessor.Global
-    public string SaveSlot { get; }
+    public string SaveSlot { get; } = saveSlot;
 
     /// <summary>
-    /// Gets the item or items that are being loaded.
+    ///     Gets the item or items that are being loaded.
     /// </summary>
-    public LoadedItem LoadedItem { get; }
+    public LoadedItem LoadedItem { get; } = loadedItem;
 }
 
 /// <summary>
-/// Items that are being loaded.
+///     Items that are being loaded.
 /// </summary>
 [Flags]
 public enum LoadedItem
 {
     /// <summary>
-    /// Custom Mod info is being loaded.
+    ///     Custom Mod info is being loaded.
     /// </summary>
     Mods,
 
     /// <summary>
-    /// Round stats are loaded. Called after StartOfRound.SetTimeAndPlanetToSavedSettings.
+    ///     Round stats are loaded. Called after StartOfRound.SetTimeAndPlanetToSavedSettings.
     /// </summary>
     SetTimeAndPlanetToSavedSettings,
 
     /// <summary>
-    /// Grabbable Items are loaded. Called after StartOfRound.LoadShipGrabbableItems.
+    ///     Grabbable Items are loaded. Called after StartOfRound.LoadShipGrabbableItems.
     /// </summary>
     LoadShipGrabbableItems,
 
     /// <summary>
-    /// Unlockables are spawned. Called after StartOfRound.SpawnUnlockable.
+    ///     Unlockables are spawned. Called after StartOfRound.SpawnUnlockable.
     /// </summary>
     SpawnUnlockable,
 
     /// <summary>
-    /// Unlockables are loaded. Called after StartOfRound.LoadUnlockables.
+    ///     Unlockables are loaded. Called after StartOfRound.LoadUnlockables.
     /// </summary>
     LoadUnlockables,
 
     /// <summary>
-    /// Last selected save is loaded. Called after GameNetworkManager.Start.
+    ///     Last selected save is loaded. Called after GameNetworkManager.Start.
     /// </summary>
     LastSelectedSave,
 }

@@ -15,7 +15,7 @@
         <TargetFramework>net48</TargetFramework>
         <ImplicitUsings>false</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <LangVersion>preview</LangVersion>
+        <LangVersion>12</LangVersion>
         <Configurations>Release</Configurations>
         <Platform>AnyCPU</Platform>
         <UnsafeCodeBlocks>true</UnsafeCodeBlocks>
@@ -91,26 +91,5 @@
         <None Include="FodyWeavers.xml" Link="Resources/FodyWeavers.xml" />
         <Compile Remove="System/*" />
         <Compile Include="System/*" Visible="False" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="EventArgs\Enemies\BaboonBird\" />
-      <Folder Include="EventArgs\Enemies\Blob\" />
-      <Folder Include="EventArgs\Enemies\Centipede\" />
-      <Folder Include="EventArgs\Enemies\Crawler\" />
-      <Folder Include="EventArgs\Enemies\DocileBees\" />
-      <Folder Include="EventArgs\Enemies\Dog\" />
-      <Folder Include="EventArgs\Enemies\DoubleWing\" />
-      <Folder Include="EventArgs\Enemies\DressGirl\" />
-      <Folder Include="EventArgs\Enemies\Flowerman\" />
-      <Folder Include="EventArgs\Enemies\Giant\" />
-      <Folder Include="EventArgs\Enemies\HoarderBug\" />
-      <Folder Include="EventArgs\Enemies\Jester\" />
-      <Folder Include="EventArgs\Enemies\LassoMan\" />
-      <Folder Include="EventArgs\Enemies\Puffer\" />
-      <Folder Include="EventArgs\Enemies\RedBees\" />
-      <Folder Include="EventArgs\Enemies\Spider\" />
-      <Folder Include="EventArgs\Enemies\SpringMan\" />
-      <Folder Include="EventArgs\Enemies\Worm\" />
     </ItemGroup>
 </Project>

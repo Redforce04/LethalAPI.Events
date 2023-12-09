@@ -38,11 +38,13 @@ internal static class PlayerHealingInjuringTranspiler
         List<CodeInstruction> newInstructions = instructions.ToList();
 
         int index = newInstructions.FindNthInstruction(2, instruction => instruction.opcode == OpCodes.Ret);
-        Dictionary<ushort, ushort> indexes = DeniableEventInjector<HealingEventArgs>.Create(ref newInstructions, ref generator, original).Inject(index + 1).InjectedInstructionIndexes;
-        indexes.AddRange(DeniableEventInjector<CriticallyInjureEventArgs>.Create(ref newInstructions, ref generator, original).Inject(2).InjectedInstructionIndexes);
+        Dictionary<ushort, ushort> indexes = DeniableEventInjector<DeniableHealingEventArgs>.Create(ref newInstructions, ref generator, original).InjectDeniableEvent(index + 1).InjectedInstructionIndexes;
+        indexes.AddRange(DeniableEventInjector<DeniableCriticallyInjureEventArgs>.Create(ref newInstructions, ref generator, original).InjectDeniableEvent(2).InjectedInstructionIndexes);
 
         // EventTranspilerInjector.InjectDeniableEvent<HealingEventArgs>(ref newInstructions, ref generator, ref original, index + 1);
         // EventTranspilerInjector.InjectDeniableEvent<CriticallyInjureEventArgs>(ref newInstructions, ref generator, ref original, 2);
+        Log.Debug($"[&3Patching {nameof(PlayerHealingInjuringTranspiler)}&r]", Plugin.Instance.Config.DetailedPatchLogging.Contains(nameof(PlayerHealingInjuringTranspiler)));
+
         for (int i = 0; i < newInstructions.Count; i++)
             yield return newInstructions[i].Log(i, -1, Plugin.Instance.Config.DetailedPatchLogging.Contains(nameof(PlayerHealingInjuringTranspiler)), ShowDebugInfo, indexes);
     }

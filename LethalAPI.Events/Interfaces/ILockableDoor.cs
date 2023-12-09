@@ -16,5 +16,5 @@ public interface ILockableDoor : IDoorEvent
     /// <summary>
     /// Gets the <see cref="DoorLock"/>.
     /// </summary>
-    public DoorLock Lock { get; }
+    public DoorLock Lock { get; init; }
 }

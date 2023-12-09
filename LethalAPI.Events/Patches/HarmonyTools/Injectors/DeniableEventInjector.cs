@@ -82,7 +82,7 @@ public class DeniableEventInjector<T> : Injector
     /// </param>
     /// <remarks>If an index is not supplied, the <see cref="Injector.IndexToInject">Injector.IndexToInject</see> will be used instead.</remarks>
     /// <returns>The current instance of the <see cref="Injector"/>.</returns>
-    public DeniableEventInjector<T> Inject(int index = -1)
+    public DeniableEventInjector<T> InjectDeniableEvent(int index = -1)
     {
         if (index != -1)
             this.IndexToInject = index;
@@ -124,7 +124,6 @@ public class DeniableEventInjector<T> : Injector
             });
         }
 
-        this.InjectedInstructionIndexes.Add((ushort)this.IndexToInject, (ushort)opcodes.Count);
         this.Instructions.InsertRange(this.IndexToInject, opcodes);
         this.Instructions[this.Instructions.Count - 1].WithLabels(rtn);
 
@@ -134,6 +133,12 @@ public class DeniableEventInjector<T> : Injector
             originalInstruction.labels.Clear();
         }
 
+        if (this.InjectedInstructionIndexes.ContainsKey((ushort)this.IndexToInject))
+            this.InjectedInstructionIndexes[(ushort)this.IndexToInject] = (ushort)(this.InjectedInstructionIndexes[(ushort)this.IndexToInject] + opcodes.Count);
+        else
+            this.InjectedInstructionIndexes.Add((ushort)this.IndexToInject, (ushort)opcodes.Count);
+        this.IndexToInject += opcodes.Count;
+
         return this;
     }
 
@@ -142,7 +147,7 @@ public class DeniableEventInjector<T> : Injector
     /// </summary>
     /// <param name="shouldAutoInsert">Indicates whether or not to auto insert constructor parameters.</param>
     /// <returns>The current instance of the <see cref="Injector"/>.</returns>
-    public DeniableEventInjector<T> AutoInsertConstructorParameters(bool shouldAutoInsert)
+    public DeniableEventInjector<T> AutoInsertConstructorParameters(bool shouldAutoInsert = true)
     {
         this.autoInsertConstructorParameters = shouldAutoInsert;
         return this;
@@ -153,7 +158,7 @@ public class DeniableEventInjector<T> : Injector
     /// </summary>
     /// <param name="shouldCreateLocal">Indicates whether or not to create local of the event arg.</param>
     /// <returns>The current instance of the <see cref="Injector"/>.</returns>
-    public DeniableEventInjector<T> CreateLocalForEventArg(bool shouldCreateLocal)
+    public DeniableEventInjector<T> CreateLocalForEventArg(bool shouldCreateLocal = true)
     {
         this.createLocalEventArg = shouldCreateLocal;
         return this;

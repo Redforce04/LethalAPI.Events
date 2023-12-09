@@ -20,4 +20,12 @@ public interface IDeniableEvent : ILethalApiEvent
     ///     Gets or sets a value indicating whether or not the event is allowed to continue.
     /// </summary>
     public bool IsAllowed { get; set; }
+
+    /// <summary>
+    ///     Gets or sets a value indicating whether or not other events should still be triggered.
+    /// </summary>
+    /// <remarks>
+    ///     If not used carefully and considerately, enabling this can cause improper behaviour for plugins.
+    /// </remarks>
+    internal bool HardDenied { get; set; }
 }

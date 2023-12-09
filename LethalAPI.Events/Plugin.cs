@@ -47,7 +47,7 @@ public sealed class Plugin : Core.Features.Plugin<Config>
     /// <summary>
     /// Gets the <see cref="Core.Events.Features.Patcher"/> used to employ all patches.
     /// </summary>
-    public Patcher Patcher { get; private set; } = null!;
+    internal Patcher Patcher { get; private set; } = null!;
 
     /// <inheritdoc />
     public override void OnEnabled()
@@ -80,7 +80,7 @@ public sealed class Plugin : Core.Features.Plugin<Config>
     /// <summary>
     /// Patches all events.
     /// </summary>
-    public void Patch()
+    private void Patch()
     {
         try
         {
@@ -105,7 +105,7 @@ public sealed class Plugin : Core.Features.Plugin<Config>
     /// <summary>
     /// Unpatches all events.
     /// </summary>
-    public void Unpatch()
+    private void Unpatch()
     {
         Log.Debug("Unpatching events...");
         this.Patcher.UnpatchAll();

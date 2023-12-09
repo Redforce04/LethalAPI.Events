@@ -16,27 +16,37 @@ using Features;
 public static class Enemies
 {
     /// <summary>
-    ///     Gets or sets the event that is called before an enemy attacks a player.
+    ///     Gets the event that is called when an enemy attacks a player.
     /// </summary>
-    public static Event<EnemyAttackingPlayerEventArgs> EnemyAttackingPlayer { get; set; } = new();
+    public static Event<DeniableEnemyAttackingPlayerEventArgs> DeniableEnemyAttackingPlayer { get; } = new();
 
     /// <summary>
-    ///     Gets or sets the event that is called before an enemy kills a player.
+    ///     Gets the event that is called when an enemy detects noise.
     /// </summary>
-    public static Event<EnemyKillingPlayerEventArgs> EnemyKillingPlayer { get; set; } = new();
+    public static Event<DeniableEnemyKillingPlayerEventArgs> DeniableEnemyDetectingNoise { get; } = new();
 
     /// <summary>
-    ///     Gets or sets the event that is called before a player hits an enemy.
+    ///     Gets the event that is called when an enemy kills a player.
     /// </summary>
-    public static Event<HittingEnemyEventArgs> HittingEnemy { get; set; } = new();
+    public static Event<DeniableEnemyKillingPlayerEventArgs> DeniableEnemyKillingPlayer { get; } = new();
 
     /// <summary>
-    ///     Gets or sets the event that is called before a player kills an enemy.
+    ///     Gets the event that is called when an enemy becomes enraged.
     /// </summary>
-    public static Event<KillingEnemyEventArgs> KillingEnemy { get; set; } = new();
+    public static Event<DeniablePlayerHittingEnemyEventArgs> DeniableEnragingEnemy { get; } = new();
 
     /// <summary>
-    ///     Gets or sets the event that is called before a player stuns an enemy.
+    ///     Gets the event that is called when a player hits an enemy.
     /// </summary>
-    public static Event<StunningEnemyEventArgs> StunningEnemy { get; set; } = new();
+    public static Event<DeniablePlayerHittingEnemyEventArgs> DeniablePlayerHittingEnemy { get; } = new();
+
+    /// <summary>
+    ///     Gets the event that is called when a player kills an enemy.
+    /// </summary>
+    public static Event<DeniablePlayerKillingEnemyEventArgs> DeniablePlayerKillingEnemy { get; } = new();
+
+    /// <summary>
+    ///     Gets the event that is called when a player stuns an enemy.
+    /// </summary>
+    public static Event<DeniableStunningEnemyEventArgs> DeniableStunningEnemy { get; } = new();
 }

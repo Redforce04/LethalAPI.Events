@@ -26,7 +26,7 @@ using LethalAPI.Events.Interfaces;
 /// <summary>
 /// A tool for patching.
 /// </summary>
-public class Patcher
+internal class Patcher
 {
     /// <summary>
     /// The below variable is used to increment the name of the harmony instance, otherwise harmony will not work upon a plugin reload.
@@ -43,34 +43,94 @@ public class Patcher
     }
 
     /// <summary>
-    /// Gets a <see cref="HashSet{T}"/> that contains all patch types that haven't been patched.
+    /// Gets or sets a <see cref="HashSet{T}"/> that contains all patch types that haven't been patched.
     /// </summary>
     // ReSharper disable once MemberCanBePrivate.Global
-    public static HashSet<Type> UnpatchedTypes { get; private set; } = Plugin.Instance.Config.UseDynamicPatching ? GetNonEventPatchTypes() : GetAllPatchTypes();
+    private static HashSet<Type> UnpatchedTypes { get; set; } = Plugin.Instance.Config.UseDynamicPatching ? GetNonEventPatchTypes() : GetAllPatchTypes();
 
     /// <summary>
     /// Gets a <see cref="HashSet{T}"/> that contains all patch types that have been patched.
     /// </summary>
-    public static HashSet<Type> PatchedTypes { get; } = new();
+    private static HashSet<Type> PatchedTypes { get; } = new();
 
     /// <summary>
     /// Gets a set of types and methods for which LethalAPI patches should not be run.
     /// </summary>
     // ReSharper disable once CollectionNeverUpdated.Global
     // ReSharper disable once MemberCanBePrivate.Global
-    public static HashSet<MethodBase> DisabledPatchesHashSet { get; } = new();
+    // ReSharper disable once CollectionNeverUpdated.Local
+    private static HashSet<MethodBase> DisabledPatchesHashSet { get; } = new();
 
     /// <summary>
     /// Gets the <see cref="HarmonyLib.Harmony"/> instance.
     /// </summary>
     // ReSharper disable once MemberCanBePrivate.Global
-    public HarmonyLib.Harmony Harmony { get; }
+    private HarmonyLib.Harmony Harmony { get; }
+
+    /// <summary>
+    /// Patches all events.
+    /// </summary>
+    /// <param name="failedPatch">the number of failed patch returned.</param>
+    /// <param name="totalPatches">the number of total patches attempted.</param>
+    internal void PatchAll(out int failedPatch, out int totalPatches)
+    {
+        totalPatches = 0;
+        failedPatch = 0;
+
+        try
+        {
+            List<Type> toPatch = new (UnpatchedTypes);
+            foreach (Type patch in toPatch)
+            {
+                totalPatches++;
+                try
+                {
+                    PatchedTypes.Add(patch);
+                    this.Harmony.CreateClassProcessor(patch).Patch();
+                    UnpatchedTypes.Remove(patch);
+                    Log.Debug($"Patching type '{patch.FullName}'", Plugin.Instance.Config.LogEventPatching, "LethalAPI-Patcher");
+                }
+                catch (HarmonyException exception)
+                {
+                    Log.Error($"Could not patch type '{patch.Name}' due to an error.");
+                    if(Plugin.Instance.Config.Debug)
+                        Log.Exception(exception);
+                    failedPatch++;
+                }
+            }
+
+            Log.Debug("Events patched by attributes successfully!");
+        }
+        catch (Exception exception)
+        {
+            Log.Error($"Patching by attributes failed!\n{exception}");
+        }
+
+        if (Plugin.Instance.Config.DetailedPatchLogging.Contains("Pause"))
+        {
+            Log.Raw(" [&2WARNING&r] &5Thread is going to be paused. You can disable this by removing 'Pause' from the Detailed Patch Logging config option.");
+            System.Threading.Thread.Sleep(int.MaxValue);
+        }
+    }
+
+    /// <summary>
+    /// Unpatches all events.
+    /// </summary>
+    internal void UnpatchAll()
+    {
+        Log.Debug("Un-patching events...");
+        HarmonyLib.Harmony.UnpatchID(this.Harmony.Id);
+        UnpatchedTypes = GetAllPatchTypes();
+        PatchedTypes.Clear();
+
+        Log.Debug("All events have been unpatched. Goodbye!");
+    }
 
     /// <summary>
     /// Patches all events that target a specific <see cref="ILethalApiEvent"/>.
     /// </summary>
     /// <param name="event">The <see cref="ILethalApiEvent"/> all matching patches should target.</param>
-    public void Patch(ILethalApiEvent @event)
+    internal void Patch(ILethalApiEvent @event)
     {
         try
         {
@@ -97,74 +157,10 @@ public class Patcher
         }
         catch (Exception ex)
         {
-            Log.Error($"Patching by event failed!\n{ex}");
+            Log.Error($"Could not patch event '{@event.GetType().Name}' due to an error. [Dynamic]");
+            if(Plugin.Instance.Config.Debug)
+                Log.Exception(ex);
         }
-    }
-
-    /// <summary>
-    /// Patches all events.
-    /// </summary>
-    /// <param name="failedPatch">the number of failed patch returned.</param>
-    /// <param name="totalPatches">the number of total patches attempted.</param>
-    public void PatchAll(out int failedPatch, out int totalPatches)
-    {
-        totalPatches = 0;
-        failedPatch = 0;
-
-        try
-        {
-            List<Type> toPatch = new (UnpatchedTypes);
-            foreach (Type patch in toPatch)
-            {
-                totalPatches++;
-                try
-                {
-                    PatchedTypes.Add(patch);
-                    this.Harmony.CreateClassProcessor(patch).Patch();
-                    UnpatchedTypes.Remove(patch);
-                    Log.Debug($"Patching type '{patch.FullName}'", Plugin.Instance.Config.LogEventPatching, "LethalAPI-Patcher");
-                }
-                catch (HarmonyException exception)
-                {
-                    Log.Error($"Patching by attributes failed!\n{exception}");
-
-                    failedPatch++;
-                }
-            }
-
-            Log.Debug("Events patched by attributes successfully!");
-        }
-        catch (Exception exception)
-        {
-            Log.Error($"Patching by attributes failed!\n{exception}");
-        }
-    }
-
-    /// <summary>
-    /// Checks the <see cref="DisabledPatchesHashSet"/> list and un-patches any methods that have been defined there. Once un-patching has been done, they can be patched by plugins, but will not be re-patchable by LethalAPI until a server reboot.
-    /// </summary>
-    // ReSharper disable once MemberCanBePrivate.Global
-    public void ReloadDisabledPatches()
-    {
-        foreach (MethodBase method in DisabledPatchesHashSet)
-        {
-            this.Harmony.Unpatch(method, HarmonyPatchType.All, this.Harmony.Id);
-
-            Log.Info($"Unpatched {method.Name}");
-        }
-    }
-
-    /// <summary>
-    /// Unpatches all events.
-    /// </summary>
-    public void UnpatchAll()
-    {
-        Log.Debug("Un-patching events...");
-        HarmonyLib.Harmony.UnpatchID(this.Harmony.Id);
-        UnpatchedTypes = GetAllPatchTypes();
-        PatchedTypes.Clear();
-
-        Log.Debug("All events have been unpatched. Goodbye!");
     }
 
     /// <summary>
@@ -227,5 +223,19 @@ public class Patcher
         }
 
         return types;
+    }
+
+    /// <summary>
+    /// Checks the <see cref="DisabledPatchesHashSet"/> list and un-patches any methods that have been defined there. Once un-patching has been done, they can be patched by plugins, but will not be re-patchable by LethalAPI until a server reboot.
+    /// </summary>
+    // ReSharper disable once MemberCanBePrivate.Global
+    private void ReloadDisabledPatches()
+    {
+        foreach (MethodBase method in DisabledPatchesHashSet)
+        {
+            this.Harmony.Unpatch(method, HarmonyPatchType.All, this.Harmony.Id);
+
+            Log.Info($"Unpatched {method.Name}");
+        }
     }
 }

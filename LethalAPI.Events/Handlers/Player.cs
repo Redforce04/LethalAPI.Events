@@ -7,31 +7,48 @@
 
 namespace LethalAPI.Events.Handlers;
 
+using EventArgs.Items;
+using EventArgs.Map;
 using LethalAPI.Events.EventArgs.Player;
 using LethalAPI.Events.Features;
 
 /// <summary>
-/// Contains event handlers for player events.
+///     Contains event handlers for player events.
 /// </summary>
 public static class Player
 {
     /// <summary>
-    ///     Gets or sets the event that is invoked when a player is critically injured.
+    ///     Gets the event that is invoked when a player is changing suits.
     /// </summary>
-    public static Event<CriticallyInjureEventArgs> CriticallyInjure { get; set; } = new ();
+    public static Event<DeniableChangingSuitEventArgs> ChangingSuit { get; } = new ();
 
     /// <summary>
-    ///     Gets or sets the event that is invoked when a player is healed.
+    ///     Gets the event that is invoked when a player is critically injured.
     /// </summary>
-    public static Event<HealingEventArgs> Healing { get; set; } = new ();
+    public static Event<DeniableCriticallyInjureEventArgs> CriticallyInjure { get; } = new ();
 
     /// <summary>
-    ///     Gets or sets the event that is invoked when a player is using a key.
+    ///     Gets the event that is invoked when a player is being damaged.
     /// </summary>
-    public static Event<UsingKeyEventArgs> UsingKey { get; set; } = new ();
+    public static Event<DeniableDamagingPlayerEventArgs> DamagingPlayer { get; } = new ();
 
     /// <summary>
-    ///     Gets or sets the event that is invoked when a player is using an item.
+    ///     Gets the event that is invoked when a player is healed.
     /// </summary>
-    public static Event<UsingItemEventArgs> UsingItem { get; set; } = new ();
+    public static Event<DeniableHealingEventArgs> Healing { get; } = new ();
+
+    /// <summary>
+    ///     Gets the event that is invoked when a player is dying.
+    /// </summary>
+    public static Event<PostPlayerDyingEventArgs> DeniablePlayerDying { get; } = new ();
+
+    /// <summary>
+    ///     Gets the event that is invoked when a player is teleporting.
+    /// </summary>
+    public static Event<DeniablePlayerTeleportingEventArgs> DeniablePlayerTeleporting { get; } = new ();
+
+    /// <summary>
+    ///     Gets the event that is invoked after a player dies.
+    /// </summary>
+    public static Event<PostPlayerDyingEventArgs> PostPlayerDying { get; } = new ();
 }

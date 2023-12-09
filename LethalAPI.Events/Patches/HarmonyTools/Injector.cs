@@ -135,10 +135,36 @@ public class Injector : IList<CodeInstruction>, IList, IReadOnlyList<CodeInstruc
         }
 
         List<CodeInstruction> codeInstructions = instructions as List<CodeInstruction> ?? instructions.ToList();
-        this.InjectedInstructionIndexes.Add((ushort)this.IndexToInject, (ushort)codeInstructions.Count);
+        if (this.InjectedInstructionIndexes.ContainsKey((ushort)this.IndexToInject))
+            this.InjectedInstructionIndexes[(ushort)this.IndexToInject] = (ushort)(this.InjectedInstructionIndexes[(ushort)this.IndexToInject] + (ushort)codeInstructions.Count);
+        else
+            this.InjectedInstructionIndexes.Add((ushort)this.IndexToInject, (ushort)codeInstructions.Count);
         this.Instructions.InsertRange(this.IndexToInject, codeInstructions);
         this.IndexToInject += codeInstructions.Count;
         this.AddedInstructionAmount += codeInstructions.Count;
+        return this;
+    }
+
+    /// <summary>
+    /// Injects instructions at a given index, or the latest index.
+    /// </summary>
+    /// <param name="instruction">The instuction to inject.</param>
+    /// <param name="i">The index to inject the instructions.</param>
+    /// <returns>The current instance of the <see cref="Injector"/>.</returns>
+    public virtual Injector InjectAt(CodeInstruction instruction, int i = -1)
+    {
+        if (i != -1)
+        {
+            this.IndexToInject = i;
+        }
+
+        if (this.InjectedInstructionIndexes.ContainsKey((ushort)this.IndexToInject))
+            this.InjectedInstructionIndexes[(ushort)this.IndexToInject] = this.InjectedInstructionIndexes[(ushort)this.IndexToInject]++;
+        else
+            this.InjectedInstructionIndexes.Add((ushort)this.IndexToInject, 1);
+        this.Instructions.InsertRange(this.IndexToInject, new[] { instruction });
+        this.IndexToInject++;
+        this.AddedInstructionAmount++;
         return this;
     }
 
@@ -149,7 +175,7 @@ public class Injector : IList<CodeInstruction>, IList, IReadOnlyList<CodeInstruc
     /// <param name="index">The index to remove the instructions from.</param>
     /// <returns>The current instance of the <see cref="Injector"/>.</returns>
     /// <remarks>If the index is -1, <see cref="IndexToInject"/> will be used instead, and the <see cref="IndexToInject"/> will not be moved.</remarks>
-    public virtual Injector Remove(int amount, int index = -1)
+    public virtual Injector Remove(int amount = 1, int index = -1)
     {
         if (index != -1)
         {
@@ -159,6 +185,45 @@ public class Injector : IList<CodeInstruction>, IList, IReadOnlyList<CodeInstruc
         this.RemovedInstructionAmount += amount;
         this.Instructions.RemoveRange(this.IndexToInject, amount);
         return this;
+    }
+
+    /// <summary>
+    /// Moves instructions to a new index.
+    /// </summary>
+    /// <param name="oldIndex">The starting index of the original instructions.</param>
+    /// <param name="newIndex">The new starting index of the instructions.</param>
+    /// <param name="amountToMove">The amount of instructions to move.</param>
+    /// <returns>The current instance of the <see cref="Injector"/>.</returns>
+    /// <remarks>Note: This overload is different from the single parameter overload. Ensure parameters are in the correct order.</remarks>
+    public virtual Injector MoveInstructions(int oldIndex, int newIndex = -1, int amountToMove = 1)
+    {
+        if (newIndex != -1)
+            this.IndexToInject = newIndex;
+
+        if (oldIndex == newIndex)
+            return this;
+
+        List<CodeInstruction> instructionsToMove = this.Instructions.GetRange(oldIndex, amountToMove);
+        this.Instructions.InsertRange(this.IndexToInject, instructionsToMove);
+        this.Instructions.RemoveRange(this.IndexToInject < oldIndex ? oldIndex + instructionsToMove.Count : oldIndex, instructionsToMove.Count);
+        this.IndexToInject += instructionsToMove.Count;
+        return this;
+    }
+
+    /// <summary>
+    /// Moves instructions to a new index.
+    /// </summary>
+    /// <param name="shiftAmount">The amount of instructions to skip.</param>
+    /// <param name="instructionCount">The amount of instructions to move.</param>
+    /// <param name="index">The starting index of the original instructions.</param>
+    /// <returns>The current instance of the <see cref="Injector"/>.</returns>
+    /// <remarks>Note: This overload is different from the single parameter overload. Ensure parameters are in the correct order.</remarks>
+    public virtual Injector ShiftInstructions(int shiftAmount, int instructionCount = 1, int index = -1)
+    {
+        if(index != -1)
+            this.IndexToInject = index;
+
+        return MoveInstructions(this.IndexToInject, this.IndexToInject + shiftAmount, instructionCount);
     }
 
     /// <summary>
@@ -214,13 +279,35 @@ public class Injector : IList<CodeInstruction>, IList, IReadOnlyList<CodeInstruc
     private object? _syncRoot;
 
     /// <inheritdoc cref="List{T}.InsertRange" />
-    public void InsertRange(int index, IEnumerable<CodeInstruction> collection) => Instructions.InsertRange(index, collection);
+    public void InsertRange(int index, IEnumerable<CodeInstruction> collection)
+    {
+        List<CodeInstruction> list = collection as List<CodeInstruction> ?? collection.ToList();
+        this.AddedInstructionAmount += list.Count;
+        this.IndexToInject = index + list.Count;
+
+        if (this.InjectedInstructionIndexes.ContainsKey((ushort)this.IndexToInject))
+            this.InjectedInstructionIndexes[(ushort)this.IndexToInject] = (ushort)(this.InjectedInstructionIndexes[(ushort)this.IndexToInject] + list.Count);
+        else
+            this.InjectedInstructionIndexes.Add((ushort)index, (ushort)list.Count);
+        this.Instructions.InsertRange(index, list);
+    }
 
     /// <inheritdoc cref="List{T}.RemoveRange" />
-    public void RemoveRange(int index, int count) => Instructions.RemoveRange(index, count);
+    public void RemoveRange(int index, int count)
+    {
+        this.RemovedInstructionAmount += count;
+        this.IndexToInject = index;
+        this.Instructions.RemoveRange(index, count);
+    }
 
     /// <inheritdoc cref="List{T}.RemoveAll" />
-    public void RemoveAll(Predicate<CodeInstruction> match) => this.Instructions.RemoveAll(match);
+    /// <remarks>Does not change the <see cref="IndexToInject"/>.</remarks>
+    public void RemoveAll(Predicate<CodeInstruction> match)
+    {
+        int count = this.Instructions.Count;
+        this.Instructions.RemoveAll(match);
+        this.RemovedInstructionAmount += count - this.Instructions.Count;
+    }
 
     /// <inheritdoc cref="List{T}.GetRange" />
     public List<CodeInstruction> GetRange(int index, int count) => this.Instructions.GetRange(index, count);
@@ -329,7 +416,17 @@ public class Injector : IList<CodeInstruction>, IList, IReadOnlyList<CodeInstruc
     }
 
     /// <inheritdoc />
-    public void Add(CodeInstruction item) => Instructions.Add(item);
+    public void Add(CodeInstruction item)
+    {
+        this.AddedInstructionAmount++;
+
+        if (this.InjectedInstructionIndexes.ContainsKey((ushort)this.IndexToInject))
+            this.InjectedInstructionIndexes[(ushort)this.IndexToInject] = this.InjectedInstructionIndexes[(ushort)this.IndexToInject]++;
+        else
+            this.InjectedInstructionIndexes.Add((ushort)(this.Instructions.Count - 1), 1);
+        this.IndexToInject = this.Instructions.Count + 1;
+        this.Instructions.Add(item);
+    }
 
     /// <inheritdoc />
     public IEnumerator<CodeInstruction> GetEnumerator() => Instructions.GetEnumerator();
@@ -343,8 +440,15 @@ public class Injector : IList<CodeInstruction>, IList, IReadOnlyList<CodeInstruc
         if (value is not CodeInstruction instr)
             return -1;
 
-        Instructions.Add(instr);
-        return Instructions.Count - 1;
+        this.AddedInstructionAmount++;
+
+        if (this.InjectedInstructionIndexes.ContainsKey((ushort)this.IndexToInject))
+            this.InjectedInstructionIndexes[(ushort)this.IndexToInject] = this.InjectedInstructionIndexes[(ushort)this.IndexToInject]++;
+        else
+            this.InjectedInstructionIndexes.Add((ushort)(this.Instructions.Count - 1), 1);
+        this.Instructions.Add(instr);
+        this.IndexToInject = this.Instructions.Count;
+        return this.Instructions.Count - 1;
     }
 
     /// <inheritdoc />
@@ -353,11 +457,16 @@ public class Injector : IList<CodeInstruction>, IList, IReadOnlyList<CodeInstruc
         if (value is not CodeInstruction instr)
             return false;
 
-        return Instructions.Contains(instr);
+        return this.Instructions.Contains(instr);
     }
 
     /// <inheritdoc cref="ICollection{T}.Clear" />
-    public void Clear() => Instructions.Clear();
+    public void Clear()
+    {
+        this.RemovedInstructionAmount += this.Instructions.Count;
+        this.Instructions.Clear();
+        this.IndexToInject = 0;
+    }
 
     /// <inheritdoc />
     public int IndexOf(object value)
@@ -365,7 +474,7 @@ public class Injector : IList<CodeInstruction>, IList, IReadOnlyList<CodeInstruc
         if (value is not CodeInstruction instr)
             return -1;
 
-        return Instructions.IndexOf(instr);
+        return this.Instructions.IndexOf(instr);
     }
 
     /// <inheritdoc />
@@ -374,7 +483,14 @@ public class Injector : IList<CodeInstruction>, IList, IReadOnlyList<CodeInstruc
         if (value is not CodeInstruction instr)
             return;
 
-        Instructions.Insert(index, instr);
+        this.AddedInstructionAmount++;
+
+        if (this.InjectedInstructionIndexes.ContainsKey((ushort)this.IndexToInject))
+            this.InjectedInstructionIndexes[(ushort)this.IndexToInject] = this.InjectedInstructionIndexes[(ushort)this.IndexToInject]++;
+        else
+            this.InjectedInstructionIndexes.Add((ushort)index, 1);
+        this.Instructions.Insert(index, instr);
+        this.IndexToInject = index + 1;
     }
 
     /// <inheritdoc />
@@ -383,37 +499,57 @@ public class Injector : IList<CodeInstruction>, IList, IReadOnlyList<CodeInstruc
         if (value is not CodeInstruction instr)
             return;
 
-        Instructions.Remove(instr);
+        this.RemovedInstructionAmount++;
+        this.Instructions.Remove(instr);
     }
 
     /// <inheritdoc />
-    public bool Contains(CodeInstruction item) => Instructions.Contains(item);
+    public bool Contains(CodeInstruction item) => this.Instructions.Contains(item);
 
     /// <inheritdoc />
-    public void CopyTo(CodeInstruction[] array, int arrayIndex) => Instructions.CopyTo(array, arrayIndex);
+    public void CopyTo(CodeInstruction[] array, int arrayIndex) => this.Instructions.CopyTo(array, arrayIndex);
 
     /// <inheritdoc />
-    public bool Remove(CodeInstruction item) => Instructions.Remove(item);
+    public bool Remove(CodeInstruction item)
+    {
+        this.RemovedInstructionAmount++;
+        return this.Instructions.Remove(item);
+    }
 
     /// <inheritdoc />
     public int IndexOf(CodeInstruction item) => this.Instructions.IndexOf(item);
 
     /// <inheritdoc />
-    public void Insert(int index, CodeInstruction item) => Instructions.Insert(index, item);
+    public void Insert(int index, CodeInstruction item)
+    {
+        this.AddedInstructionAmount++;
+
+        if (this.InjectedInstructionIndexes.ContainsKey((ushort)this.IndexToInject))
+            this.InjectedInstructionIndexes[(ushort)this.IndexToInject] = this.InjectedInstructionIndexes[(ushort)this.IndexToInject]++;
+        else
+            this.InjectedInstructionIndexes.Add((ushort)index, 1);
+        this.Instructions.Insert(index, item);
+        this.IndexToInject = index + 1;
+    }
 
     /// <inheritdoc cref="IList{T}.RemoveAt" />
-    public void RemoveAt(int index) => Instructions.RemoveAt(index);
+    public void RemoveAt(int index)
+    {
+        this.RemovedInstructionAmount++;
+        this.Instructions.RemoveAt(index);
+        this.IndexToInject = index;
+    }
 
     /// <inheritdoc/>
     object IList.this[int index]
     {
-        get => Instructions[index];
+        get => this.Instructions[index];
         set
         {
             if (value is not CodeInstruction instr)
                 return;
 
-            Instructions[index] = instr;
+            this.Instructions[index] = instr;
         }
     }
 }

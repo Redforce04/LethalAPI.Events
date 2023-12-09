@@ -17,17 +17,22 @@ using LethalAPI.Events.Features;
 public static class Server
 {
     /// <summary>
-    ///     Gets or sets the event that is invoked when a save is initiated.
+    ///     Gets the event that is invoked when a save is initiated.
     /// </summary>
-    public static Event<SavingEventArgs> Saving { get; set; } = new ();
+    public static Event<SavingEventArgs> Saving { get; } = new ();
 
     /// <summary>
-    ///     Gets or sets the event that is invoked when a save is initiated.
+    ///     Gets the event that is invoked when a save is initiated.
     /// </summary>
-    public static Event<LoadingSaveEventArgs> LoadingSave { get; set; } = new ();
+    public static Event<LoadingSaveEventArgs> LoadingSave { get; } = new ();
 
     /// <summary>
-    ///     Gets or sets the event that is invoked when the game gets to the very first menu.
+    ///     Gets the event that is invoked when a save is being reset.
     /// </summary>
-    public static Event GameOpened { get; set; } = new(nameof(GameOpened));
+    public static Event<DeniableResettingSaveEventArgs> DeniableResettingSave { get; } = new ();
+
+    /// <summary>
+    ///     Gets the event that is invoked when the game gets to the very first menu.
+    /// </summary>
+    public static Event GameOpened { get; } = new(nameof(GameOpened));
 }

@@ -21,5 +21,5 @@ public interface IDoorEvent : ILethalApiEvent
     /// <summary>
     /// Gets the door.
     /// </summary>
-    public Door Door { get; }
+    public Door Door { get; init;  }
 }

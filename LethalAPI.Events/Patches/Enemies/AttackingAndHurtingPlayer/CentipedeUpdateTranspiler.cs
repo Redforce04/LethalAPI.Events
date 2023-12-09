@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-
+using Handlers;
 using HarmonyLib;
 using LethalAPI.Events.Attributes;
 using LethalAPI.Events.EventArgs.Enemies;
@@ -21,11 +21,11 @@ using LethalAPI.Events.Patches.HarmonyTools;
 using EventTranspilerInjector = HarmonyTools.EventTranspilerInjector;
 
 /// <summary>
-///     Patches the <see cref="Handlers.Enemies.EnemyAttackingPlayer"/> and <see cref="Handlers.Enemies.EnemyKillingPlayer"/> event.
+///     Patches the <see cref="Enemies.DeniableEnemyAttackingPlayer"/> and <see cref="Enemies.DeniableEnemyKillingPlayer"/> event.
 /// </summary>
-[HarmonyPatch(typeof(CentipedeAI), nameof(CentipedeAI.Update))] // tick damage
-[EventPatch(typeof(Handlers.Enemies), nameof(Handlers.Enemies.EnemyAttackingPlayer))]
-[EventPatch(typeof(Handlers.Enemies), nameof(Handlers.Enemies.EnemyKillingPlayer))]
+// [HarmonyPatch(typeof(CentipedeAI), nameof(CentipedeAI.Update))] // tick damage
+// [EventPatch(typeof(Handlers.Enemies), nameof(Handlers.Enemies.EnemyAttackingPlayer))]
+// [EventPatch(typeof(Handlers.Enemies), nameof(Handlers.Enemies.EnemyKillingPlayer))]
 internal static class CentipedeUpdateTranspiler
 {
     [HarmonyTranspiler]
@@ -34,7 +34,7 @@ internal static class CentipedeUpdateTranspiler
         List<CodeInstruction> newInstructions = instructions.ToList();
 
         int index = newInstructions.FindNthInstruction(2, instruction => instruction.opcode == OpCodes.Ret);
-        EventTranspilerInjector.InjectDeniableEvent<EnemyAttackingPlayerEventArgs>(ref newInstructions, ref generator, ref original, index + 1);
+        EventTranspilerInjector.InjectDeniableEvent<DeniableEnemyAttackingPlayerEventArgs>(ref newInstructions, ref generator, ref original, index + 1);
 
         for (int i = 0; i < newInstructions.Count; i++)
             yield return newInstructions[i];

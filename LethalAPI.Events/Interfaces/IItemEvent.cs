@@ -19,5 +19,5 @@ public interface IItemEvent : ILethalApiEvent
     /// <summary>
     /// Gets the item.
     /// </summary>
-    public GrabbableObject GrabbableItem { get; }
+    public GrabbableObject Item { get; init; }
 }

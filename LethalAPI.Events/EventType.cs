@@ -7,6 +7,9 @@
 
 namespace LethalAPI.Events;
 
+using EventArgs.Server;
+using Handlers;
+
 /// <summary>
 /// A list of all events.
 /// </summary>
@@ -18,28 +21,42 @@ public enum EventType
     None = 0,
 
     /// <inheritdoc cref="Handlers.Player.CriticallyInjure"/>
-    CriticallyInjure = 1,
+    CriticallyInjure,
 
     /// <inheritdoc cref="Handlers.Player.Healing"/>
-    Healing = 2,
+    Healing,
 
-    /// <inheritdoc cref="Handlers.Player.UsingItem"/>
-    UsingItem = 3,
+    /// <inheritdoc cref="Items.DeniableUsingItem"/>
+    UsingItem,
 
     /// <inheritdoc cref="Handlers.Player.UsingKey"/>
-    UsingKey = 4,
+    UsingKey,
 
     /// <inheritdoc cref="Handlers.Server.LoadingSave"/>
-    LoadingSave = 5,
+    LoadingSave,
 
+    /// <inheritdoc cref="DeniableResettingSaveEventArgs"/>
     // <inheritdoc cref="Handlers.Server.ResetSave"/>
-
-    /// <inheritdoc cref="LethalAPI.Events.EventArgs.Server.ResetSaveEventArgs"/>
-    ResetSave = 6,
+    ResetSave,
 
     /// <inheritdoc cref="Handlers.Server.Saving"/>
-    Saving = 6,
+    Saving,
 
     /// <inheritdoc cref="Handlers.Server.GameOpened"/>
-    GameOpened = 7,
+    GameOpened,
+
+    /// <inheritdoc cref="Enemies.DeniablePlayerHittingEnemy"/>
+    HittingEnemy,
+
+    /// <inheritdoc cref="Enemies.DeniablePlayerKillingEnemy"/>
+    KillingEnemy,
+
+    /// <inheritdoc cref="Enemies.DeniableStunningEnemy"/>
+    StunningEnemy,
+
+    /// <inheritdoc cref="Enemies.DeniableEnemyAttackingPlayer"/>
+    EnemyAttackingPlayer,
+
+    /// <inheritdoc cref="Enemies.DeniableEnemyKillingPlayer"/>
+    EnemyKillingPlayer,
 }
